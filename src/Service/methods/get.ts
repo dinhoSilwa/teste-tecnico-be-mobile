@@ -1,9 +1,13 @@
-import type { AxiosInstance } from "axios";
+import type { AxiosInstance, AxiosResponse } from "axios";
 import type { IColalaborator } from "../../types/Employers/collabotarorType";
 
-export const getAllEmployerList = async (
+export interface ICollaboratorResponse {
+  getAll: IColalaborator;
+}
+export const getAllCollaborators = async (
   api: AxiosInstance
-): Promise<IColalaborator[]> => {
-  const { data } = await api.get<IColalaborator[]>("collaborator");
-  return data;
+): Promise<ICollaboratorResponse> => {
+  const response: AxiosResponse<ICollaboratorResponse> =
+    await api.get<ICollaboratorResponse>("collaborators");
+  return response.data;
 };
