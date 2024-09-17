@@ -1,6 +1,6 @@
 import { SetUpApi } from "./setupApi";
 
 export const useHttp = () => {
-  const api = SetUpApi("http://localhost:3000/collaborator");
+  const api = SetUpApi("http://localhost:3000/api/");
   return api;
 };
