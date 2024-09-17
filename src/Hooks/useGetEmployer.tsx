@@ -2,17 +2,18 @@ import { useHttp } from "../Service/useHttp";
 import { CollaboratorServices } from "../Service/employerServices";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import type { IColalaborator } from "../types/Employers/collabotarorType";
+import type { ICollaboratorResponse } from "../Service/methods/get";
 
-const getAllcollaborator = async (): Promise<IColalaborator[] | any> => {
+const fetchAllCollaborators = async (): Promise<IColalaborator[] | any> => {
   const api = useHttp();
-  const get = new CollaboratorServices();
-  const response = await get.getAllcollaborator(api);
-  console.log(response);
+  const getList = new CollaboratorServices();
+  const response: ICollaboratorResponse = await getList.AllCollaborators(api);
+  return response;
 };
 
 export const useGetEmployerList = (): UseQueryResult<IColalaborator[]> => {
   const getcollaboratorQuery = useQuery<IColalaborator[]>({
-    queryFn: getAllcollaborator,
+    queryFn: fetchAllCollaborators,
     queryKey: ["get-collaborator"],
   });
 
