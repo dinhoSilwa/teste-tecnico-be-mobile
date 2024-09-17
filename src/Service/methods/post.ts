@@ -5,6 +5,6 @@ export const addNewEmployer = async (
   api: AxiosInstance,
   CollaboratorData: IColalaborator
 ) => {
-  const { data } = await api.post("collaborator", CollaboratorData);
+  const { data } = await api.post("collaborators", CollaboratorData);
   return data;
 };
