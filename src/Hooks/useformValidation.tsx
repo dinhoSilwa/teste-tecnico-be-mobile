@@ -9,15 +9,17 @@ import {
 import { useHttp } from "../Service/useHttp";
 import { CollaboratorServices } from "../Service/employerServices";
 import type { IColalaborator } from "../types/Employers/collabotarorType";
+import { useGetEmployerList } from "./useGetEmployer";
 
 const addEmployer = async (CollaboratorData: IColalaborator): Promise<void> => {
   const api = useHttp();
   const service = new CollaboratorServices();
-  await service.createEmployer(api, CollaboratorData);
+  await service.createCollabotaror(api, CollaboratorData);
 };
 
 export const useFormValidation = () => {
   const addEmployerQuery = useQueryClient();
+  const { refetch } = useGetEmployerList();
 
   const addEmployerMutation: UseMutationResult<
     void,
@@ -26,10 +28,11 @@ export const useFormValidation = () => {
     unknown
   > = useMutation({
     mutationFn: addEmployer,
-    onError: () => console.error("Erro Ao Adicionar Empregado"),
+    onError: (error) => console.error("Erro Ao Adicionar Empregado", error),
     onSuccess: () => {
       console.log("Sucesso ao Cadastrar"),
         addEmployerQuery.invalidateQueries({ queryKey: ["create-query"] });
+      refetch();
     },
   });
 
