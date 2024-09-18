@@ -1,6 +1,5 @@
-export interface IColalaborator {
+export interface ICollaborator {
   _id?: string;
-  avatar?: string;
   name: string;
   position: string;
   admission: string;
