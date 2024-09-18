@@ -5,42 +5,10 @@ import Avatar from "@mui/material/Avatar";
 import { TBodyTd, TheadTd } from "./TablesTD/thead";
 import { DeleteCollaborator } from "../ButtonDelete/deleteCollaborator";
 import { ButtonEditCollaborator } from "../ButtonEdit/editCollaborator";
+import { stringAvatar, stringToColor } from "./TablesTD/utils/avatarIcon";
 
 const CollaboratorTable = () => {
   const { data } = useGetEmployerList();
-  function stringToColor(string: string) {
-    let hash = 0;
-    let i;
-
-    /* eslint-disable no-bitwise */
-    for (i = 0; i < string.length; i += 1) {
-      hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    let color = "#";
-
-    for (i = 0; i < 3; i += 1) {
-      const value = (hash >> (i * 8)) & 0xff;
-      color += `00${value.toString(16)}`.substr(-2);
-    }
-    /* eslint-enable no-bitwise */
-
-    return color;
-  }
-
-  function stringAvatar(name: string) {
-    const nameParts = name.split(" ");
-
-    return {
-      sx: {
-        bgcolor: stringToColor(name),
-      },
-      children:
-        nameParts.length > 1
-          ? `${nameParts[0][0]}${nameParts[1][0]}`
-          : `${nameParts[0][0]}`, // Caso haja apenas um nome
-    };
-  }
 
   return (
     <section className=" deployers-table full flex justify-center h-auto z-0 shadow-xl bg-white">

@@ -1,28 +1,13 @@
-import type { AxiosInstance } from "axios";
-import { CollaboratorServices } from "../Service/employerServices";
 import { useHttp } from "../Service/useHttp";
-import type { ICollaborator } from "../types/Employers/collabotarorType";
+import type { ICollaborator, UpdateProps } from "../types/Employers/collabotarorType";
 import {
   useMutation,
   useQueryClient,
   type UseMutationResult,
 } from "@tanstack/react-query";
+import { getByIdAndUpdate } from "./utils/methodsFuntion";
 
-interface UpdateProps {
-  api: AxiosInstance;
-  collaboratorId: string;
-  update: ICollaborator;
-}
 
-const getByIdAndUpdate = async (
-  id: string,
-  update: ICollaborator
-): Promise<any> => {
-  const api = useHttp();
-  const updateCollaborator = new CollaboratorServices();
-  await updateCollaborator.updateCollaboratorById(api, id, update);
-  return;
-};
 
 export const useEditCollaborator = () => {
   const updateQuery = useQueryClient();

@@ -6,18 +6,12 @@ import {
   UseMutationResult,
   useQueryClient,
 } from "@tanstack/react-query";
-import { useHttp } from "../Service/useHttp";
-import { CollaboratorServices } from "../Service/employerServices";
+
 import type { ICollaborator } from "../types/Employers/collabotarorType";
 import { useGetEmployerList } from "./useGetEmployer";
+import { addEmployer } from "./utils/methodsFuntion";
 
-const addEmployer = async (CollaboratorData: ICollaborator): Promise<void> => {
-  const api = useHttp();
-  const service = new CollaboratorServices();
-  await service.createCollabotaror(api, CollaboratorData);
-};
-
-export const useFormValidation = () => {
+export const useFormValidation = (): React.FC => {
   const addEmployerQuery = useQueryClient();
   const { refetch } = useGetEmployerList();
 
@@ -29,8 +23,8 @@ export const useFormValidation = () => {
   > = useMutation({
     mutationFn: addEmployer,
     onError: (error) => console.error("Erro Ao Adicionar Empregado", error),
-    onSuccess: () => {
-      console.log("Sucesso ao Cadastrar"),
+    onSuccess: (data) => {
+      console.log("Sucesso ao Cadastrar", data),
         addEmployerQuery.invalidateQueries({ queryKey: ["create-query"] });
       refetch();
     },
