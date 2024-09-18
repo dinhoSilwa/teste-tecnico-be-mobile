@@ -1,15 +1,13 @@
-import "./App.css";
-import { FormEmployer } from "./Components/Form/addCollaborator";
-import CollaboratorTable from "./Components/Table/collaboratorTable";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Home } from "./Pages/home";
 
 function App() {
   return (
-    <>
-      <section>
-        <FormEmployer />
-        <CollaboratorTable/>
-      </section>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </Router>
   );
 }
 
