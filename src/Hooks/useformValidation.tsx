@@ -8,10 +8,10 @@ import {
 } from "@tanstack/react-query";
 import { useHttp } from "../Service/useHttp";
 import { CollaboratorServices } from "../Service/employerServices";
-import type { IColalaborator } from "../types/Employers/collabotarorType";
+import type { ICollaborator } from "../types/Employers/collabotarorType";
 import { useGetEmployerList } from "./useGetEmployer";
 
-const addEmployer = async (CollaboratorData: IColalaborator): Promise<void> => {
+const addEmployer = async (CollaboratorData: ICollaborator): Promise<void> => {
   const api = useHttp();
   const service = new CollaboratorServices();
   await service.createCollabotaror(api, CollaboratorData);
@@ -24,7 +24,7 @@ export const useFormValidation = () => {
   const addEmployerMutation: UseMutationResult<
     void,
     unknown,
-    IColalaborator,
+    ICollaborator,
     unknown
   > = useMutation({
     mutationFn: addEmployer,
@@ -40,12 +40,13 @@ export const useFormValidation = () => {
     handleSubmit,
     register,
     watch,
+    reset,
     formState: { errors },
-  } = useForm<IColalaborator>({
+  } = useForm<ICollaborator>({
     resolver: yupResolver(collaboratorSchema),
   });
 
-  const onSubmit = (CollaboratorData: IColalaborator) => {
+  const onSubmit = (CollaboratorData: ICollaborator) => {
     addEmployerMutation.mutate(CollaboratorData);
   };
 
@@ -54,7 +55,9 @@ export const useFormValidation = () => {
     register,
     watch,
     errors,
+    reset,
     isLoading: addEmployerMutation.isPending,
     isError: addEmployerMutation.isError,
+    isSuccess: addEmployerMutation.isSuccess,
   };
 };
