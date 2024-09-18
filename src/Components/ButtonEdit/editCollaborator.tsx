@@ -14,10 +14,12 @@ export const ButtonEditCollaborator = ({ id }: IdProps) => {
 
   const handleEdit = (id: string) => {
     handleCollaboratorById(id);
+
     setIsOpenForm(!isOpenForm);
     const collaboratorGet = CollaboratoData?.collaborator;
+
     if (collaboratorGet) {
-      setcollaborator(collaboratorGet);
+      setcollaborator(collaboratorGet as any);
     }
   };
 
@@ -26,7 +28,7 @@ export const ButtonEditCollaborator = ({ id }: IdProps) => {
       <button
         className="h-10 w-12 rounded-full flex justify-center items-center"
         title="Editar Colaborador"
-        onClick={() => handleEdit(id)}
+        onClick={() => handleEdit(id as string)}
       >
         <PenSquareIcon
           size={18}

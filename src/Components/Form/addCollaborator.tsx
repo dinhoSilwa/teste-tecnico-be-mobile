@@ -3,7 +3,6 @@ import { useFormValidation } from "../../Hooks/useformValidation";
 import { positions, theaderItemstable } from "../../Model/collaboratorModel";
 import { isOpenFormStore } from "../../store/FormStore";
 import { useEffect } from "react";
-import { CollaboratorStore } from "../../store/collaboratorToForm";
 
 export interface ItheaderItemstable {
   nome: string;
@@ -13,8 +12,8 @@ export interface ItheaderItemstable {
 }
 
 export const FormCollaborator = () => {
-  const { collaborator } = CollaboratorStore();
   const { isOpenForm, setIsOpenForm } = isOpenFormStore();
+
   const {
     handleSubmit,
     isError,
@@ -22,8 +21,8 @@ export const FormCollaborator = () => {
     isSuccess,
     errors,
     watch,
-    reset,
     register,
+    reset,
   } = useFormValidation();
 
   const name = watch("name");
@@ -32,41 +31,16 @@ export const FormCollaborator = () => {
   const admission = watch("admission");
 
   useEffect(() => {
-    const handleCloseModal = () => {
-      if (isSuccess) {
-        setIsOpenForm(false);
-      }
-    };
-    handleCloseModal();
-  }, [isSuccess, isOpenForm]);
-
-  useEffect(() => {
-    console.log(collaborator);
-    if (collaborator) {
-      const { name, position, admission, phone } = collaborator as any;
-      if (!name || !position || !admission || !phone) {
-        console.log("Tem coisa aqui , Preparado Para Atualizar")
-        return;
-      }
-      reset({
-        name,
-        admission,
-        position,
-        phone,
-      });
-    }
-  }, [collaborator]);
-
-  const handleChoseSubmit = () => {
-    if (!collaborator) {
-      handleSubmit;
+    if (isSuccess) {
+      setIsOpenForm(false);
+      reset();
       return;
     }
-  };
+  }, [isSuccess]);
 
   return (
     <form
-      onSubmit={handleChoseSubmit}
+      onSubmit={handleSubmit}
       className={clsx(
         "z-50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg w-[50%] px-8 flex flex-col pt-8 h-[400px]",
         { flex: isOpenForm === true },
