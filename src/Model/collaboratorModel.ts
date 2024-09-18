@@ -2,12 +2,11 @@ import type { ItheaderItemstable } from "../Components/Form/addCollaborator";
 
 export const theaderItemstable: ItheaderItemstable[] = [
   {
-    avatar: "Foto",
+    //avatar: "Foto",
     nome: "Nome",
-    position: "position",
+    position: "Cargo",
     admission: "Data de Admissão",
     phone: "Telefone",
-    action: "Opções",
   },
 ];
 
@@ -20,4 +19,27 @@ export const collaboratorData = [
     phone: "5585987596435",
     action: "Menu",
   },
+];
+
+export const positions = [
+  "Desenvolvedor Frontend",
+  "Desenvolvedor Backend",
+  "Desenvolvedor Full Stack",
+  "Engenheiro de Software",
+  "Arquiteto de Software",
+  "Analista de Sistemas",
+  "Desenvolvedor Mobile",
+  "Desenvolvedor de Jogos",
+  "Engenheiro de Dados",
+  "Cientista de Dados",
+  "Engenheiro de Machine Learning",
+  "Administrador de Banco de Dados",
+  "DevOps Engineer",
+  "Engenheiro de Segurança da Informação",
+  "Analista de Qualidade de Software",
+  "Testador de Software",
+  "Consultor de TI",
+  "Especialista em Nuvem",
+  "Designer de UI/UX",
+  "Engenheiro de Infraestrutura",
 ];
