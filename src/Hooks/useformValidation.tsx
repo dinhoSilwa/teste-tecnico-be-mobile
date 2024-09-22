@@ -8,24 +8,31 @@ import {
 } from "@tanstack/react-query";
 
 import type { ICollaborator } from "../types/Employers/collabotarorType";
+import { addCollaborator, getByIdAndUpdate } from "./utils/methodsFuntion";
 import { useGetEmployerList } from "./useGetEmployer";
-import { addEmployer } from "./utils/methodsFuntion";
 
-export const useFormValidation = (): React.FC => {
-  const addEmployerQuery = useQueryClient();
+export const useFormMutation = (operation: "add" | "edit", id?: string) => {
+  const Query = useQueryClient();
   const { refetch } = useGetEmployerList();
 
-  const addEmployerMutation: UseMutationResult<
+  const mutation: UseMutationResult<
     void,
     unknown,
-    ICollaborator,
+    { id: string | undefined; data: ICollaborator },
     unknown
   > = useMutation({
-    mutationFn: addEmployer,
-    onError: (error) => console.error("Erro Ao Adicionar Empregado", error),
+    mutationFn: ({ id, data }) => {
+      if (operation === "add") {
+        return addCollaborator(data);
+      } else if (operation === "edit" && id) {
+        return getByIdAndUpdate(id, data);
+      }
+      throw new Error("Invalid Operation or Missing id");
+    },
+    onError: (error) => console.error(`Error ${operation}`, error),
     onSuccess: (data) => {
-      console.log("Sucesso ao Cadastrar", data),
-        addEmployerQuery.invalidateQueries({ queryKey: ["create-query"] });
+      console.log(`${operation} Succesfully`, data),
+        Query.invalidateQueries({ queryKey: ["create-query"] });
       refetch();
     },
   });
@@ -35,13 +42,14 @@ export const useFormValidation = (): React.FC => {
     register,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<ICollaborator>({
     resolver: yupResolver(collaboratorSchema),
   });
 
-  const onSubmit = (CollaboratorData: ICollaborator) => {
-    addEmployerMutation.mutate(CollaboratorData);
+  const onSubmit = (data: ICollaborator) => {
+    mutation.mutate({ id, data });
   };
 
   return {
@@ -50,8 +58,9 @@ export const useFormValidation = (): React.FC => {
     watch,
     errors,
     reset,
-    isLoading: addEmployerMutation.isPending,
-    isError: addEmployerMutation.isError,
-    isSuccess: addEmployerMutation.isSuccess,
+    isLoading: mutation.isPending,
+    isError: mutation.isError,
+    isSuccess: mutation.isSuccess,
+    setValue,
   };
 };
