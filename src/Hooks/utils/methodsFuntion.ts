@@ -12,7 +12,7 @@ export const fetchAllCollaborators = async (): Promise<
   return response;
 };
 
-export const addEmployer = async (
+export const addCollaborator = async (
   CollaboratorData: ICollaborator
 ): Promise<void> => {
   const api = useHttp();
