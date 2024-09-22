@@ -1,8 +1,9 @@
 import clsx from "clsx";
-import { useFormValidation } from "../../Hooks/useformValidation";
 import { positions, theaderItemstable } from "../../Model/collaboratorModel";
 import { isOpenFormStore } from "../../store/FormStore";
 import { useEffect } from "react";
+import { useFormMutation } from "../../Hooks/useformValidation";
+import { CollaboratorStore } from "../../store/collaboratorToForm";
 
 export interface ItheaderItemstable {
   nome: string;
@@ -13,6 +14,7 @@ export interface ItheaderItemstable {
 
 export const FormCollaborator = () => {
   const { isOpenForm, setIsOpenForm } = isOpenFormStore();
+  const { collaborator, clear } = CollaboratorStore();
 
   const {
     handleSubmit,
@@ -23,7 +25,8 @@ export const FormCollaborator = () => {
     watch,
     register,
     reset,
-  } = useFormValidation();
+    setValue,
+  } = useFormMutation("add");
 
   const name = watch("name");
   const position = watch("position");
@@ -33,11 +36,30 @@ export const FormCollaborator = () => {
   useEffect(() => {
     if (isSuccess) {
       setIsOpenForm(false);
-      reset();
+      clear();
       return;
     }
+
+    reset();
   }, [isSuccess]);
 
+  useEffect(() => {
+    if (collaborator) {
+      console.log("REsolvendo problemas aqui", collaborator);
+
+      if (!name || !admission || !position || !phone) {
+        return;
+      }
+
+      reset({
+        name,
+        admission,
+        position,
+        phone,
+      });
+    }
+    console.log("Faltou");
+  }, []);
   return (
     <form
       onSubmit={handleSubmit}
@@ -80,7 +102,8 @@ export const FormCollaborator = () => {
           />
 
           <input
-            type="date"
+            maxLength={10}
+            type="text"
             value={admission || ""}
             placeholder={items.admission}
             {...register("admission")}
@@ -107,7 +130,9 @@ export const FormCollaborator = () => {
 
         <div
           className="w-32 flex justify-center items-center border-2 bg-red-100 border-red-600  text-red-600 py-2 rounded-lg cursor-pointer"
-          onClick={() => setIsOpenForm(!isOpenForm)}
+          onClick={() => {
+            setIsOpenForm(!isOpenForm), clear();
+          }}
         >
           Cancelar
         </div>
