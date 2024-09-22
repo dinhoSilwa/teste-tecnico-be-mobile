@@ -1,7 +1,8 @@
-import { PenSquareIcon } from "lucide-react";
+import { Loader2Icon, PenSquareIcon } from "lucide-react";
 import { isOpenFormStore } from "../../store/FormStore";
 import { useGetCollaboratorId } from "../../Hooks/useGetCollaboratorId";
 import { CollaboratorStore } from "../../store/collaboratorToForm";
+import { collaboratorData } from "../../Model/collaboratorModel";
 
 interface IdProps {
   id: string | undefined;
@@ -9,18 +10,21 @@ interface IdProps {
 
 export const ButtonEditCollaborator = ({ id }: IdProps) => {
   const { isOpenForm, setIsOpenForm } = isOpenFormStore();
-  const { handleCollaboratorById, CollaboratoData } = useGetCollaboratorId();
+  const { handleCollaboratorById, CollaboratoData, isLoading } =
+    useGetCollaboratorId();
   const { setcollaborator } = CollaboratorStore();
 
-  const handleEdit = (id: string) => {
-    handleCollaboratorById(id);
-
+  const handleEdit = () => {
     setIsOpenForm(!isOpenForm);
-    const collaboratorGet = CollaboratoData?.collaborator;
-
-    if (collaboratorGet) {
-      setcollaborator(collaboratorGet as any);
+    if (id) {
+      handleCollaboratorById(id);
+      if (CollaboratoData) {
+        setcollaborator(CollaboratoData);
+        return;
+      }
+      return;
     }
+    console.log("não tem id");
   };
 
   return (
@@ -28,12 +32,19 @@ export const ButtonEditCollaborator = ({ id }: IdProps) => {
       <button
         className="h-10 w-12 rounded-full flex justify-center items-center"
         title="Editar Colaborador"
-        onClick={() => handleEdit(id as string)}
+        onClick={handleEdit}
       >
-        <PenSquareIcon
-          size={18}
-          className="text-slate-600 hover:text-blue-600 hover:scale-125 transition-all duration-500"
-        />
+        {!isLoading ? (
+          <PenSquareIcon
+            size={18}
+            className="text-slate-600 hover:text-blue-600 hover:scale-125 transition-all duration-500"
+          />
+        ) : (
+          <Loader2Icon
+            size={18}
+            className="text-slate-600 hover:text-blue-600 hover:scale-125 transition-all duration-500"
+          />
+        )}
       </button>
     </>
   );
