@@ -1,15 +1,15 @@
 import { create } from "zustand";
-import type { ICollaborator } from "../types/Employers/collabotarorType";
+import type { collaboratorProps } from "../Service/employerServices";
 
 interface storeProps {
-  collaborator: ICollaborator | string[];
-  setcollaborator: (collaborator: ICollaborator) => void;
+  collaborator: collaboratorProps | any;
+  setcollaborator: (collaborator: collaboratorProps) => void;
   clear: () => void;
 }
 
 export const CollaboratorStore = create<storeProps>()((set) => ({
   collaborator: [],
-  setcollaborator: (Newcollaborator: ICollaborator) =>
+  setcollaborator: (Newcollaborator: collaboratorProps) =>
     set({ collaborator: Newcollaborator }),
   clear: () => set({ collaborator: [] }),
 }));
