@@ -21,6 +21,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",
+    "react-input-mask": "^2.0.4",
     "react-router-dom": "^6.26.2",
     "yup": "^1.4.0",
     "zustand": "^5.0.0-rc.2"
@@ -29,6 +30,7 @@
     "@eslint/js": "^9.9.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@types/react-input-mask": "^3.0.5",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.9.0",
