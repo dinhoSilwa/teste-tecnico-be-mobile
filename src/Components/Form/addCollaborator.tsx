@@ -4,7 +4,7 @@ import { isOpenFormStore } from "../../store/FormStore";
 import { useEffect } from "react";
 import { useFormMutation } from "../../Hooks/useformValidation";
 import { CollaboratorStore } from "../../store/collaboratorToForm";
-
+import ReactInputMask from "react-input-mask";
 export interface ItheaderItemstable {
   nome: string;
   position: string;
@@ -25,7 +25,6 @@ export const FormCollaborator = () => {
     watch,
     register,
     reset,
-    setValue,
   } = useFormMutation("add");
 
   const name = watch("name");
@@ -101,8 +100,8 @@ export const FormCollaborator = () => {
             })}
           />
 
-          <input
-            maxLength={10}
+          <ReactInputMask
+            mask="99/99/9999"
             type="text"
             value={admission || ""}
             placeholder={items.admission}
@@ -112,7 +111,8 @@ export const FormCollaborator = () => {
             })}
           />
 
-          <input
+          <ReactInputMask
+            mask="(99) 9-9999-9999"
             type="text"
             value={phone || ""}
             placeholder={items.phone}
