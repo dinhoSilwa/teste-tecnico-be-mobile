@@ -8,12 +8,16 @@ import { CollaboratorStore } from "../store/collaboratorToForm";
 
 export const Home = () => {
   const { isOpenForm } = isOpenFormStore();
-  const {collaborator} = CollaboratorStore()
+  const { collaborator } = CollaboratorStore();
 
   return (
     <>
       <section>
-        {collaborator.collaborator  ? <span className="h-10 w-10 bg-green-300">tem</span> : <span className="h-10 w-10 bg-red-300">tem</span>}
+        {collaborator.collaborator ? (
+          <span className="h-10 w-10 bg-green-300">tem</span>
+        ) : (
+          <span className="h-10 w-10 bg-red-300">tem</span>
+        )}
         <SuperBar />
         <SearchBar />
         <section
