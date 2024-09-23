@@ -6,6 +6,7 @@ import { TBodyTd, TheadTd } from "./TablesTD/thead";
 import { DeleteCollaborator } from "../ButtonDelete/deleteCollaborator";
 import { ButtonEditCollaborator } from "../ButtonEdit/editCollaborator";
 import { stringAvatar, stringToColor } from "./TablesTD/utils/avatarIcon";
+import { Link } from "react-router-dom";
 
 const CollaboratorTable = () => {
   const { data } = useGetEmployerList();
@@ -27,41 +28,52 @@ const CollaboratorTable = () => {
             )
           )}
         </thead>
-        <tbody className="w-[80%] h-[400px] overflow-y-auto text-white flex flex-col items-center elemento">
-          {data?.map((items, index) => (
-            <tr
-              key={index}
-              className=" flex justify-around w-full text-gray-800 even:bg-gray-200 items-center py-2"
-            >
-              <td className="flex-1 text-center flex justify-center">
-                <figure>
-                  <Avatar
-                    sx={{
-                      width: 36,
-                      height: 36,
-                      fontSize: "1rem",
-                      bgcolor: stringToColor(items.name as string),
-                    }}
-                  >
-                    {stringAvatar(items.name as string).children}
-                  </Avatar>
-                </figure>
-              </td>
-              <TBodyTd tdString={items.name} />
-              <TBodyTd tdString={items.position} />
-              <TBodyTd tdString={items.admission} />
-              <TBodyTd tdString={items.phone} />
-              <div className="flex-1 flex justify-center">
-                <DeleteCollaborator
-                  id={items._id}
-                  nameCollaborator={items.name}
-                />
+        {data && data?.length > 0 ? (
+          <tbody className="w-[80%] h-[400px] overflow-y-auto text-white flex flex-col items-center elemento">
+            {data?.map((items, index) => (
+              <tr
+                key={index}
+                className=" flex justify-around w-full text-gray-800 even:bg-gray-200 items-center py-2"
+              >
+                <td className="flex-1 text-center flex justify-center">
+                  <figure>
+                    <Avatar
+                      sx={{
+                        width: 36,
+                        height: 36,
+                        fontSize: "1rem",
+                        bgcolor: stringToColor(items.name as string),
+                      }}
+                    >
+                      {stringAvatar(items.name as string).children}
+                    </Avatar>
+                  </figure>
+                </td>
+                <TBodyTd tdString={items.name} />
+                <TBodyTd tdString={items.position} />
+                <TBodyTd tdString={items.admission} />
+                <Link
+                  to={`https://wa.me/${items.phone}`}
+                  className="flex-1 text-center flex justify-center group"
+                >
+                  <TBodyTd tdString={items.phone} />
+                </Link>
+                <div className="flex-1 flex justify-center">
+                  <DeleteCollaborator
+                    id={items._id}
+                    nameCollaborator={items.name}
+                  />
 
-                <ButtonEditCollaborator id={items._id} />
-              </div>
-            </tr>
-          ))}
-        </tbody>
+                  <ButtonEditCollaborator id={items._id} />
+                </div>
+              </tr>
+            ))}
+          </tbody>
+        ) : (
+          <tbody>
+            <td>Nenhum Colaborador Adicionado...</td>
+          </tbody>
+        )}
       </table>
     </section>
   );
