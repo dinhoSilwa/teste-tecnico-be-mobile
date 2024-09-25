@@ -4,7 +4,7 @@ import { isOpenFormStore } from "../../store/FormStore";
 import { useEffect } from "react";
 import { useFormMutation } from "../../Hooks/useformValidation";
 import { CollaboratorStore } from "../../store/collaboratorToForm";
-import ReactInputMask from "react-input-mask";
+import InputMask from "react-input-mask";
 export interface ItheaderItemstable {
   nome: string;
   position: string;
@@ -42,23 +42,7 @@ export const FormCollaborator = () => {
     reset();
   }, [isSuccess]);
 
-  useEffect(() => {
-    if (collaborator) {
-      console.log("REsolvendo problemas aqui", collaborator);
 
-      if (!name || !admission || !position || !phone) {
-        return;
-      }
-
-      reset({
-        name,
-        admission,
-        position,
-        phone,
-      });
-    }
-    console.log("Faltou");
-  }, []);
   return (
     <form
       onSubmit={handleSubmit}
@@ -100,7 +84,7 @@ export const FormCollaborator = () => {
             })}
           />
 
-          <ReactInputMask
+          <InputMask
             mask="99/99/9999"
             type="text"
             value={admission || ""}
@@ -111,7 +95,7 @@ export const FormCollaborator = () => {
             })}
           />
 
-          <ReactInputMask
+          <InputMask
             mask="(99) 9-9999-9999"
             type="text"
             value={phone || ""}
