@@ -6,13 +6,20 @@ import { TBodyTd, TheadTd } from "./TablesTD/thead";
 import { DeleteCollaborator } from "../ButtonDelete/deleteCollaborator";
 import { ButtonEditCollaborator } from "../ButtonEdit/editCollaborator";
 import { stringAvatar, stringToColor } from "./TablesTD/utils/avatarIcon";
-import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
 
 const CollaboratorTable = () => {
   const { data } = useGetEmployerList();
 
+  useEffect(() => {
+    const notify = () => toast("✅Lista Atualizada");
+    notify();
+  }, [data]);
+
   return (
     <section className=" deployers-table full flex justify-center h-auto z-0 shadow-xl bg-white">
+      <Toaster />
       <table className=" flex flex-col items-center justify-start gap-4 w-full">
         <thead className="w-[80%] h-14 bg-cyan-800 text-white flex items-center rounded-t-xl">
           {theaderItemstable.map(
@@ -52,20 +59,15 @@ const CollaboratorTable = () => {
                 <TBodyTd tdString={items.name} />
                 <TBodyTd tdString={items.position} />
                 <TBodyTd tdString={items.admission} />
-                <Link
-                  to={`https://wa.me/${items.phone}`}
-                  className="flex-1 text-center flex justify-center group"
-                >
-                  <TBodyTd tdString={items.phone} />
-                </Link>
-                <div className="flex-1 flex justify-center">
+                <TBodyTd tdString={items.phone} />
+                <td className="flex-1 flex justify-center">
                   <DeleteCollaborator
                     id={items._id}
                     nameCollaborator={items.name}
                   />
 
                   <ButtonEditCollaborator id={items._id} />
-                </div>
+                </td>
               </tr>
             ))}
           </tbody>
