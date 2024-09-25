@@ -4,11 +4,9 @@ import { SuperBar } from "../Components/Header/bar/superBar";
 import { SearchBar } from "../Components/SearchBar/searchBars";
 import CollaboratorTable from "../Components/Table/collaboratorTable";
 import { isOpenFormStore } from "../store/FormStore";
-import { CollaboratorStore } from "../store/collaboratorToForm";
 
 export const Home = () => {
   const { isOpenForm } = isOpenFormStore();
-  const { collaborator } = CollaboratorStore();
 
   return (
     <>
