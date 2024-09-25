@@ -14,5 +14,5 @@ export const updateCollaboratorByIdDetails = async (
   collaboratorId: string,
   update: ICollaborator
 ) => {
-  await api.put(`collaborators/${collaboratorId}`, update);
+  await api.put(`/api/collaborators/${collaboratorId}`, update);
 };

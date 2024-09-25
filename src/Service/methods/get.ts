@@ -9,7 +9,7 @@ export const getAllCollaborators = async (
   api: AxiosInstance
 ): Promise<ICollaboratorResponse> => {
   const response: AxiosResponse<ICollaboratorResponse> =
-    await api.get<ICollaboratorResponse>("collaborators");
+    await api.get<ICollaboratorResponse>("/api/collaborators/");
   return response.data;
 };
 
@@ -18,6 +18,6 @@ export const collaboratorById = async (
   id: string
 ): Promise<collaboratorProps> => {
   const response: AxiosResponse<collaboratorProps> =
-    await api.get<collaboratorProps>(`collaborators/${id}`);
+    await api.get<collaboratorProps>(`/api/collaborators/${id}`);
   return response.data;
 };
