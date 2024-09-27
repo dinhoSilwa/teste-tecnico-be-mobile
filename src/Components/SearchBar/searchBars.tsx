@@ -1,8 +1,15 @@
 import { PlusSquare, SearchIcon } from "lucide-react";
 import { isOpenFormStore } from "../../store/FormStore";
+import type React from "react";
+import { SearchStore } from "../../store/SearchStore";
 
 export const SearchBar = () => {
   const { isOpenForm, setIsOpenForm } = isOpenFormStore();
+  const { setTextForSearch } = SearchStore();
+
+  const handleSearch = (value: string) => {
+    setTextForSearch(value);
+  };
 
   return (
     <section className="h-28 flex items-center justify-between px-12 mb-8">
@@ -12,6 +19,9 @@ export const SearchBar = () => {
           type="text"
           id="searachCollaborators"
           className="ring rounded-md h-8 w-96 text-xl px-2 font-bold"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            handleSearch(e.target.value)
+          }
         />
         <label
           htmlFor="searachCollaborators"
