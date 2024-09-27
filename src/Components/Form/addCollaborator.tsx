@@ -1,59 +1,63 @@
 import clsx from "clsx";
 import { positions, theaderItemstable } from "../../Model/collaboratorModel";
 import { isOpenFormStore } from "../../store/FormStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFormMutation } from "../../Hooks/useformValidation";
 import { CollaboratorStore } from "../../store/collaboratorToForm";
 import InputMask from "react-input-mask";
-export interface ItheaderItemstable {
-  nome: string;
-  position: string;
-  admission: string;
-  phone: string;
-}
 
 export const FormCollaborator = () => {
   const { isOpenForm, setIsOpenForm } = isOpenFormStore();
   const { collaborator, clear } = CollaboratorStore();
+  const [formMode, setFormMode] = useState<"add" | "edit">("add");
 
-  const {
-    handleSubmit,
-    isError,
-    isLoading,
-    isSuccess,
-    errors,
-    watch,
-    register,
-    reset,
-  } = useFormMutation("add");
+  console.log(formMode);
+  const { handleSubmit, isError, isLoading, errors, watch, register, reset } =
+    useFormMutation(collaborator._id ? "edit" : "add", collaborator?._id);
+
+  useEffect(() => {
+    if (collaborator._id) {
+      setFormMode("edit");
+      reset({
+        name: collaborator.name,
+        admission: collaborator.admission,
+        position: collaborator.position,
+        phone: collaborator.phone,
+      });
+    } else {
+      setFormMode("add");
+      reset();
+      clear();
+    }
+  }, [collaborator._id, reset]);
+
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     setIsOpenForm(false);
+  //   }
+  //   if(formMode === "add"){
+  //     reset()
+  //     clear()
+  //   }
+
+  // }, [isSuccess, reset, clear, setIsOpenForm, isOpenForm]);
 
   const name = watch("name");
   const position = watch("position");
   const phone = watch("phone");
   const admission = watch("admission");
 
-  useEffect(() => {
-    if (isSuccess) {
-      setIsOpenForm(false);
-      clear();
-      return;
-    }
-
-    reset();
-  }, [isSuccess]);
-
-
   return (
     <form
       onSubmit={handleSubmit}
       className={clsx(
         "z-50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg w-[50%] px-8 flex flex-col pt-8 h-[400px]",
-        { flex: isOpenForm === true },
-        { hidden: isOpenForm === false }
+        { flex: isOpenForm },
+        { hidden: !isOpenForm }
       )}
     >
       <legend className="flex items-center justify-center text-cyan-900 font-bold">
-        Adicionar Novo Collaborador
+        Adicionar Novo Colaborador
       </legend>
       {theaderItemstable.map((items, index) => (
         <fieldset key={index} className="flex flex-col py-2 gap-4">
@@ -67,7 +71,7 @@ export const FormCollaborator = () => {
             })}
           />
 
-          <datalist id="positionList" {...register("position")}>
+          <datalist id="positionList">
             {positions.map((position, index) => (
               <option value={position} key={index} />
             ))}
@@ -108,20 +112,30 @@ export const FormCollaborator = () => {
         </fieldset>
       ))}
       <div className="w-full flex gap-2 justify-end my-4">
-        <button className="w-32 bg-green-600 text-white py-2 rounded-lg">
-          {isLoading ? "Caregando..." : "Cadastrar"}
+        <button
+          type="submit"
+          className="w-32 bg-green-600 text-white py-2 rounded-lg"
+          disabled={isLoading}
+        >
+          {isLoading
+            ? "Carregando..."
+            : formMode === "edit"
+            ? "Atualizar"
+            : "Cadastrar"}
         </button>
+        {formMode}
 
-        <div
-          className="w-32 flex justify-center items-center border-2 bg-red-100 border-red-600  text-red-600 py-2 rounded-lg cursor-pointer"
+        <button
+          type="button"
+          className="w-32 flex justify-center items-center border-2 bg-red-100 border-red-600 text-red-600 py-2 rounded-lg cursor-pointer"
           onClick={() => {
-            setIsOpenForm(!isOpenForm), clear();
+            setIsOpenForm(false);
           }}
         >
           Cancelar
-        </div>
+        </button>
       </div>
-      {isError && <span>Falha ao Cadastrar</span>}
+      {isError && <span className="text-red-600">Falha ao Cadastrar</span>}
     </form>
   );
 };
