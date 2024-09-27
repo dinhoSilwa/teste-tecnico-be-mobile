@@ -7,19 +7,36 @@ import { DeleteCollaborator } from "../ButtonDelete/deleteCollaborator";
 import { ButtonEditCollaborator } from "../ButtonEdit/editCollaborator";
 import { stringAvatar, stringToColor } from "./TablesTD/utils/avatarIcon";
 import toast, { Toaster } from "react-hot-toast";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { SearchStore } from "../../store/SearchStore";
 
 const CollaboratorTable = () => {
   const { data } = useGetEmployerList();
+  const { textForSearch, setTextForSearch } = SearchStore();
+  const [collaboratorList, setcollaboratorList] = useState(data);
 
   useEffect(() => {
     const notify = () => toast("✅Lista Atualizada");
     notify();
+    setcollaboratorList(data)
+    setTextForSearch('')
   }, [data]);
+
+  useEffect(() => {
+    setcollaboratorList(
+      data?.filter((items) =>
+        items.name
+          .toLocaleLowerCase()
+          .includes(textForSearch.toLocaleLowerCase())
+      )
+    );
+    if (textForSearch.length <= 0) setcollaboratorList(data);
+  }, [textForSearch]);
 
   return (
     <section className=" deployers-table full flex justify-center h-auto z-0 shadow-xl bg-white">
       <Toaster />
+
       <table className=" flex flex-col items-center justify-start gap-4 w-full">
         <thead className="w-[80%] h-14 bg-cyan-800 text-white flex items-center rounded-t-xl">
           {theaderItemstable.map(
@@ -35,9 +52,9 @@ const CollaboratorTable = () => {
             )
           )}
         </thead>
-        {data && data?.length > 0 ? (
+        {collaboratorList && collaboratorList?.length > 0 ? (
           <tbody className="w-[80%] h-[400px] overflow-y-auto text-white flex flex-col items-center elemento">
-            {data?.map((items, index) => (
+            {collaboratorList?.map((items, index) => (
               <tr
                 key={index}
                 className=" flex justify-around w-full text-gray-800 even:bg-gray-200 items-center py-2"
