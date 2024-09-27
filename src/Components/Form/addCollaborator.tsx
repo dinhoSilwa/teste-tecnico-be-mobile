@@ -63,6 +63,7 @@ export const FormCollaborator = () => {
             className={clsx("px-4 py-2 border-2 border-slate-800 rounded-md", {
               "bg-red-100 rounded-md px-2 text-red-500": errors.name,
             })}
+            disabled={isLoading}
           />
 
           <datalist id="positionList">
@@ -80,6 +81,7 @@ export const FormCollaborator = () => {
             className={clsx("px-4 py-2 border-2 border-slate-800 rounded-md", {
               "bg-red-100 rounded-md px-2 text-red-500": errors.position,
             })}
+            disabled={isLoading}
           />
 
           <InputMask
@@ -88,6 +90,7 @@ export const FormCollaborator = () => {
             value={admission || ""}
             placeholder={items.admission}
             {...register("admission")}
+            disabled={isLoading}
             className={clsx("px-4 py-2 border-2 border-slate-800 rounded-md", {
               "bg-red-100 rounded-md px-2 text-red-500": errors.admission,
             })}
@@ -99,6 +102,7 @@ export const FormCollaborator = () => {
             value={phone || ""}
             placeholder={items.phone}
             {...register("phone")}
+            disabled={isLoading}
             className={clsx("px-4 py-2 border-2 border-slate-800 rounded-md", {
               "bg-red-100 rounded-md px-2 text-red-500": errors.phone,
             })}
