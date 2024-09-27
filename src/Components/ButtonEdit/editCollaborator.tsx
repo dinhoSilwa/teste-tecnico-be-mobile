@@ -2,7 +2,6 @@ import { Loader2Icon, PenSquareIcon } from "lucide-react";
 import { isOpenFormStore } from "../../store/FormStore";
 import { useGetCollaboratorId } from "../../Hooks/useGetCollaboratorId";
 import { CollaboratorStore } from "../../store/collaboratorToForm";
-import { collaboratorData } from "../../Model/collaboratorModel";
 
 interface IdProps {
   id: string | undefined;
@@ -19,7 +18,7 @@ export const ButtonEditCollaborator = ({ id }: IdProps) => {
     if (id) {
       handleCollaboratorById(id);
       if (CollaboratoData) {
-        setcollaborator(CollaboratoData);
+        setcollaborator(CollaboratoData.collaborator);
         return;
       }
       return;

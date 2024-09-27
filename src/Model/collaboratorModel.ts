@@ -1,4 +1,10 @@
-import type { ItheaderItemstable } from "../Components/Form/addCollaborator";
+
+interface ItheaderItemstable {
+  nome : string;
+  position : string;
+  admission : string;
+  phone : string
+}
 
 export const theaderItemstable: ItheaderItemstable[] = [
   {
