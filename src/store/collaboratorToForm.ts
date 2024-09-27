@@ -1,15 +1,15 @@
 import { create } from "zustand";
-import type { collaboratorProps } from "../Service/employerServices";
+import type { ICollaborator } from "../types/Employers/collabotarorType";
 
 interface storeProps {
-  collaborator: collaboratorProps | any;
-  setcollaborator: (collaborator: collaboratorProps) => void;
+  collaborator: ICollaborator
+  setcollaborator: (collaborator: ICollaborator) => void;
   clear: () => void;
 }
 
 export const CollaboratorStore = create<storeProps>()((set) => ({
-  collaborator: [],
-  setcollaborator: (Newcollaborator: collaboratorProps) =>
-    set({ collaborator: Newcollaborator }),
-  clear: () => set({ collaborator: [] }),
+  collaborator: { name: '', admission: '', position: '', phone: '' }, // Inicialização com objeto vazio
+  setcollaborator: (Newcollaborator: ICollaborator) => set({ collaborator: Newcollaborator }),
+  clear: () => set({ collaborator: { name: '', admission: '', position: '', phone: '' } }), // Limpar para objeto vazio
 }));
+
