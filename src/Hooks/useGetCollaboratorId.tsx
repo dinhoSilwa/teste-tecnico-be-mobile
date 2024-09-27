@@ -29,7 +29,6 @@ export const useGetCollaboratorId = () => {
   > = useMutation({
     mutationFn: collaborattorById,
     onSuccess: (data) => {
-      console.log("enviando", data.collaborator);
       if (data.collaborator) {
         setcollaborator(data.collaborator);
       }
