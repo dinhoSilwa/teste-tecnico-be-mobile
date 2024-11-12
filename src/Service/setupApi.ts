@@ -1,9 +1,13 @@
-import axios from "axios"
+import axios from "axios";
 
-export const SetUpApi = (baseURL : string) =>{
+//more specific name
+export const createApiInstance = (baseURL: string) => {
   const api = axios.create({
     baseURL,
-    headers : {"Content-Type" : "Application/json"}
-  })
-  return api
-}
+    headers: { "Content-Type": "Application/json" },
+  });
+  return api;
+};
+
+// todo 
+// adicionar interceptores

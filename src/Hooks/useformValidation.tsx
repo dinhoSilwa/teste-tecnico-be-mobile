@@ -30,8 +30,7 @@ export const useFormMutation = (operation: "add" | "edit", id?: string) => {
       throw new Error("Invalid Operation or Missing id");
     },
     onError: (error) => console.error(`Error ${operation}`, error),
-    onSuccess: (data) => {
-      console.log(`${operation} Succesfully`, data),
+    onSuccess: () => {
         Query.invalidateQueries({ queryKey: ["create-query"] });
       refetch();
     },

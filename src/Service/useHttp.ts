@@ -1,6 +1,11 @@
-import { SetUpApi } from "./setupApi";
+import { createApiInstance } from "./setupApi";
+
+const url = import.meta.env.VITE_API;
+// refact url to .env
 
 export const useHttp = () => {
-  const api = SetUpApi("https://be-mobile-api.onrender.com");
+  if (!url) throw new Error("Url base não fornecida ou inválida");
+
+  const api = createApiInstance(url!);
   return api;
 };
