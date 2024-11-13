@@ -35,7 +35,7 @@ const CollaboratorTable = () => {
   }, [textForSearch]);
 
   return (
-    <section className=" deployers-table full flex justify-center h-auto shadow-xl bg-white">
+    <section className=" deployers-table full flex justify-center h-auto shadow-xl bg-white z-0">
       <Toaster />
 
       <table className=" flex flex-col items-center justify-start gap-4 w-full">
@@ -61,13 +61,14 @@ const CollaboratorTable = () => {
                 className=" flex justify-around w-full text-gray-800 even:bg-gray-200 items-center py-2"
               >
                 <td className="flex-1 text-center flex justify-center">
-                  <td>
+                  <td className="z-0">
                     <Avatar
                       sx={{
                         width: 36,
                         height: 36,
                         fontSize: "1rem",
                         bgcolor: stringToColor(items.name as string),
+                        zIndex: "0",
                       }}
                     >
                       {stringAvatar(items.name as string).children}

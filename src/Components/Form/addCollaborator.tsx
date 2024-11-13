@@ -19,12 +19,24 @@ export const FormCollaborator = () => {
     watch,
     register,
     isSuccess,
+    reset,
   } = useFormMutation(collaborator._id ? "edit" : "add", collaborator?._id);
 
   const name = watch("name");
   const position = watch("position");
   const phone = watch("phone");
   const admission = watch("admission");
+
+  useEffect(() => {
+    const collaboratorFill = {
+      name: collaborator.name,
+      email: collaborator.phone,
+      position: collaborator.position,
+      admission: collaborator.admission,
+      phone: collaborator.phone,
+    };
+    formTypeModal["edit"] && reset(collaboratorFill);
+  }, [collaborator]);
 
   useEffect(() => {
     if (isSuccess)

@@ -6,3 +6,4 @@
 .elemento::-webkit-scrollbar { /* Para WebKit (Chrome, Safari, etc.) */
   display: none; /* Esconde a barra de rolagem */
 }
+
