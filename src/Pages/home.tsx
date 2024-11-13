@@ -3,15 +3,19 @@ import { SuperBar } from "../Components/Header/bar/superBar";
 import { SearchBar } from "../Components/SearchBar/searchBars";
 import CollaboratorTable from "../Components/Table/collaboratorTable";
 import { ModalForm } from "../Components/Modal/modal";
-import { isOpenFormStore } from "../store/FormStore";
+import { FormModalStore } from "../store/modalType";
 
 export const Home = () => {
-  const { isOpenForm } = isOpenFormStore();
+  const { formTypeModal } = FormModalStore();
+  const toggleForms = formTypeModal["add"] ? "add" : "edit";
 
   return (
     <>
       <section>
-        {isOpenForm && <ModalForm children={<FormCollaborator />} />}
+   
+        {formTypeModal[toggleForms] && (
+          <ModalForm children={<FormCollaborator />} />
+        )}
         <SuperBar />
         <SearchBar />
         <CollaboratorTable />

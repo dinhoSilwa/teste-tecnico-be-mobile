@@ -9,6 +9,7 @@ import {
   type UseMutationResult,
 } from "@tanstack/react-query";
 import { CollaboratorStore } from "../store/collaboratorToForm";
+import { FormModalStore } from "../store/modalType";
 
 const collaborattorById = async (id: string) => {
   const api = useHttp();
@@ -20,6 +21,7 @@ const collaborattorById = async (id: string) => {
 export const useGetCollaboratorId = () => {
   const byIdQuery = useQueryClient();
   const { setcollaborator } = CollaboratorStore();
+  const { openForm } = FormModalStore();
 
   const MutationGetById: UseMutationResult<
     collaboratorProps,
@@ -31,6 +33,8 @@ export const useGetCollaboratorId = () => {
     onSuccess: (data) => {
       if (data.collaborator) {
         setcollaborator(data.collaborator);
+        console.log(data.collaborator)
+        openForm("edit");
       }
 
       byIdQuery.invalidateQueries({ queryKey: ["byId-query"] });
