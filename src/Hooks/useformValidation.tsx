@@ -14,6 +14,7 @@ import { useGetEmployerList } from "./useGetEmployer";
 export const useFormMutation = (operation: "add" | "edit", id?: string) => {
   const Query = useQueryClient();
   const { refetch } = useGetEmployerList();
+  const QUERY_KEY = ["create-query"] as const;
 
   const mutation: UseMutationResult<
     void,
@@ -31,7 +32,7 @@ export const useFormMutation = (operation: "add" | "edit", id?: string) => {
     },
     onError: (error) => console.error(`Error ${operation}`, error),
     onSuccess: () => {
-        Query.invalidateQueries({ queryKey: ["create-query"] });
+      Query.invalidateQueries({ queryKey: QUERY_KEY });
       refetch();
     },
   });

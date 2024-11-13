@@ -9,17 +9,18 @@ import { stringAvatar, stringToColor } from "./TablesTD/utils/avatarIcon";
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { SearchStore } from "../../store/SearchStore";
+import { DefaultTR } from "./loading";
 
 const CollaboratorTable = () => {
-  const { data } = useGetEmployerList();
+  const { data, isLoading } = useGetEmployerList();
   const { textForSearch, setTextForSearch } = SearchStore();
   const [collaboratorList, setcollaboratorList] = useState(data);
 
   useEffect(() => {
     const notify = () => toast("✅Lista Atualizada");
     notify();
-    setcollaboratorList(data)
-    setTextForSearch('')
+    setcollaboratorList(data);
+    setTextForSearch("");
   }, [data]);
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const CollaboratorTable = () => {
   }, [textForSearch]);
 
   return (
-    <section className=" deployers-table full flex justify-center h-auto z-0 shadow-xl bg-white">
+    <section className=" deployers-table full flex justify-center h-auto shadow-xl bg-white z-0">
       <Toaster />
 
       <table className=" flex flex-col items-center justify-start gap-4 w-full">
@@ -52,31 +53,32 @@ const CollaboratorTable = () => {
             )
           )}
         </thead>
-        {collaboratorList && collaboratorList?.length > 0 ? (
-          <tbody className="w-[80%] h-[400px] overflow-y-auto text-white flex flex-col items-center elemento">
-            {collaboratorList?.map((items, index) => (
+        <tbody className="w-[80%] h-[400px] overflow-y-auto text-white flex flex-col items-center elemento">
+          {collaboratorList ? (
+            collaboratorList.map((items, index) => (
               <tr
                 key={index}
                 className=" flex justify-around w-full text-gray-800 even:bg-gray-200 items-center py-2"
               >
                 <td className="flex-1 text-center flex justify-center">
-                  <figure>
+                  <td className="z-0">
                     <Avatar
                       sx={{
                         width: 36,
                         height: 36,
                         fontSize: "1rem",
                         bgcolor: stringToColor(items.name as string),
+                        zIndex: "0",
                       }}
                     >
                       {stringAvatar(items.name as string).children}
                     </Avatar>
-                  </figure>
+                  </td>
                 </td>
-                <TBodyTd tdString={items.name} />
-                <TBodyTd tdString={items.position} />
-                <TBodyTd tdString={items.admission} />
-                <TBodyTd tdString={items.phone} />
+                <TBodyTd isLoading={isLoading} tdString={items.name} />
+                <TBodyTd isLoading={isLoading} tdString={items.position} />
+                <TBodyTd isLoading={isLoading} tdString={items.admission} />
+                <TBodyTd isLoading={isLoading} tdString={items.phone} />
                 <td className="flex-1 flex justify-center">
                   <DeleteCollaborator
                     id={items._id}
@@ -86,13 +88,11 @@ const CollaboratorTable = () => {
                   <ButtonEditCollaborator id={items._id} />
                 </td>
               </tr>
-            ))}
-          </tbody>
-        ) : (
-          <tbody>
-            <td>Nenhum Colaborador Adicionado...</td>
-          </tbody>
-        )}
+            ))
+          ) : (
+            <DefaultTR />
+          )}
+        </tbody>
       </table>
     </section>
   );

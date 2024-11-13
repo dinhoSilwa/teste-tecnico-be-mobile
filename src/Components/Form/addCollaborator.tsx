@@ -3,12 +3,14 @@ import { positions, theaderItemstable } from "../../Model/collaboratorModel";
 import { useFormMutation } from "../../Hooks/useformValidation";
 import { CollaboratorStore } from "../../store/collaboratorToForm";
 import InputMask from "react-input-mask";
-import { isOpenFormStore } from "../../store/FormStore";
+import { FormModalStore } from "../../store/modalType";
 import { useEffect } from "react";
 
 export const FormCollaborator = () => {
-  const { collaborator, clear } = CollaboratorStore();
-  const { isOpenForm, setIsOpenForm } = isOpenFormStore();
+  const { collaborator } = CollaboratorStore();
+  const { formTypeModal, formTypeToggle } = FormModalStore();
+  const toggleForm = formTypeModal["add"] ? "add" : "edit";
+
   const {
     handleSubmit,
     isError,
@@ -16,8 +18,8 @@ export const FormCollaborator = () => {
     errors,
     watch,
     register,
-    reset,
     isSuccess,
+    reset,
   } = useFormMutation(collaborator._id ? "edit" : "add", collaborator?._id);
 
   const name = watch("name");
@@ -26,41 +28,41 @@ export const FormCollaborator = () => {
   const admission = watch("admission");
 
   useEffect(() => {
-    if (!collaborator._id) reset();
-    else if (collaborator._id) {
-      reset({
-        name: collaborator.name,
-        admission: collaborator.admission,
-        position: collaborator.position,
-        phone: collaborator.phone,
-      });
-    }
-
-    return () => {
-      reset();
-      clear();
+    const collaboratorFill = {
+      name: collaborator.name,
+      email: collaborator.phone,
+      position: collaborator.position,
+      admission: collaborator.admission,
+      phone: collaborator.phone,
     };
-  }, [reset, name]);
-  if (isSuccess) setIsOpenForm(!isOpenForm);
+    formTypeModal["edit"] && reset(collaboratorFill);
+  }, [collaborator]);
+
+  useEffect(() => {
+    if (isSuccess)
+      return formTypeModal["add"]
+        ? formTypeToggle("add")
+        : formTypeToggle("edit");
+  }, [isSuccess]);
 
   return (
     <>
       <form
         onSubmit={handleSubmit}
         className={clsx(
-          " fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg w-[50%] px-8 flex flex-col pt-8 h-[400px]"
+          "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg w-[50%] px-8 flex flex-col pt-8 h-[400px]"
         )}
       >
         <legend className="flex items-center justify-center text-cyan-900 font-bold">
-          {collaborator._id
-            ? "Editar Colaborador"
-            : "Adicionar Novo Colaborador"}
+          {formTypeModal.add
+            ? " Adicionar Novo Colaborador"
+            : "Editar Colaborador"}
         </legend>
         {theaderItemstable.map((items, index) => (
           <fieldset key={index} className="flex flex-col py-2 gap-4">
             <input
               type="text"
-              value={name || ''}
+              value={name || ""}
               placeholder={items.nome}
               {...register("name")}
               className={clsx(
@@ -81,7 +83,7 @@ export const FormCollaborator = () => {
             <input
               list="positionList"
               type="text"
-              value={position || ''}
+              value={position || ""}
               placeholder={items.position}
               {...register("position")}
               className={clsx(
@@ -96,7 +98,7 @@ export const FormCollaborator = () => {
             <InputMask
               mask="99/99/9999"
               type="text"
-              value={admission || ''}
+              value={admission || ""}
               placeholder={items.admission}
               {...register("admission")}
               disabled={isLoading}
@@ -111,7 +113,7 @@ export const FormCollaborator = () => {
             <InputMask
               mask="(99) 9-9999-9999"
               type="text"
-              value={phone || ''}
+              value={phone || ""}
               placeholder={items.phone}
               {...register("phone")}
               disabled={isLoading}
@@ -132,7 +134,7 @@ export const FormCollaborator = () => {
           >
             {isLoading
               ? "Carregando..."
-              : collaborator._id
+              : formTypeModal["edit"]
               ? "Editar"
               : "Cadastrar"}
           </button>
@@ -140,7 +142,7 @@ export const FormCollaborator = () => {
           <button
             type="button"
             className="w-32 flex justify-center items-center border-2 bg-red-100 border-red-600 text-red-600 py-2 rounded-lg cursor-pointer"
-            onClick={() => setIsOpenForm(!isOpenForm)}
+            onClick={() => formTypeToggle(toggleForm)}
           >
             Cancelar
           </button>

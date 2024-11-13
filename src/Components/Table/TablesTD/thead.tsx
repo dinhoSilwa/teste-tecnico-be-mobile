@@ -1,28 +1,28 @@
 import { PenSquare, Trash2 } from "lucide-react";
 
 interface ITheadTd {
-  tdString: string;
+  tdString?: string;
 }
 
 interface IBodyTd {
   tdString: string | React.ReactElement;
+  isLoading : boolean;
 }
 
-// interface TBodyTdIconProps {
-//   tdString: string | React.ReactElement;
-// }
+
 
 export const TheadTd = ({ tdString, ...props }: ITheadTd) => {
   return (
-    <th className="flex-1 text-center flex justify-center" {...props}>
+    <th className={`flex-1 text-center flex justify-center `} {...props}>
+
       {tdString}
     </th>
   );
 };
 
-export const TBodyTd = ({ tdString, ...props }: IBodyTd) => {
+export const TBodyTd = ({ tdString, isLoading, ...props }: IBodyTd) => {
   return (
-    <td className="flex-1 text-center flex justify-center" {...props}>
+    <td className={`flex-1 text-center flex justify-center ${isLoading && 'animate-pulse bg-gray-200'}`} {...props}>
       {tdString}
     </td>
   );

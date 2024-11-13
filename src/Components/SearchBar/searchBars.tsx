@@ -1,10 +1,10 @@
 import { PlusSquare, SearchIcon } from "lucide-react";
-import { isOpenFormStore } from "../../store/FormStore";
 import type React from "react";
 import { SearchStore } from "../../store/SearchStore";
+import { FormModalStore } from "../../store/modalType";
 
 export const SearchBar = () => {
-  const { isOpenForm, setIsOpenForm } = isOpenFormStore();
+  const { openForm } = FormModalStore();
   const { setTextForSearch } = SearchStore();
 
   const handleSearch = (value: string) => {
@@ -33,9 +33,10 @@ export const SearchBar = () => {
         <button
           type="button"
           className="flex items-center justify-center gap-2 w-40 bg-green-600 text-white px-2 py-3 rounded-xl text-md font-bold"
-          onClick={() => setIsOpenForm(!isOpenForm)}
+          onClick={() => openForm("add")}
         >
           <PlusSquare /> Adicionar
+         
         </button>
       </fieldset>
     </section>
